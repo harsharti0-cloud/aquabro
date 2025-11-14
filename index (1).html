@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aqua Impex Electricals & Water Solutions</title>
+<meta name="theme-color" content="#0ea5a4">
+<style>
+  :root{
+    --brand:#0ea5a4;          /* aqua-teal */
+    --brand-deep:#086d6c;
+    --accent:#10b981;         /* mint */
+    --ink:#0f172a;
+    --muted:#64748b;
+    --card:#ffffff;
+    --bg:linear-gradient(180deg,#f4fffd 0%, #ecfbf8 30%, #ffffff 100%);
+    --danger:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 16px system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue","Noto Sans",sans-serif}
+  a{color:inherit;text-decoration:none}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:1000;
+    background:rgba(255,255,255,.85);backdrop-filter:saturate(160%) blur(10px);
+    box-shadow:0 8px 20px rgba(0,0,0,.08)}
+  .nav{max-width:1240px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+  .brand-card{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(14,165,164,.18),rgba(16,185,129,.16));border:1px solid rgba(14,165,164,.28);padding:10px 16px;border-radius:16px;box-shadow:0 6px 22px rgba(14,165,164,.24)}
+  .brand-card svg{width:36px;height:36px}
+  .brand-lines{display:flex;flex-direction:column;line-height:1}
+  .brand-lines .title{font:900 22px/1 ui-serif,Georgia,Times,serif;margin:0}
+  .brand-lines .sub{font:800 12.5px/1.15 ui-rounded,system-ui;color:#0b3b3a;margin-top:4px;letter-spacing:.3px}
+  nav ul{margin:0;padding:0;list-style:none;display:flex;gap:22px;align-items:center}
+  nav a{font-weight:800;color:var(--brand-deep)}
+  nav a:hover{text-decoration:underline;text-underline-offset:4px;color:var(--accent)}
+  .hamb{display:none;border:none;background:var(--brand);color:#fff;border-radius:10px;width:44px;height:44px;cursor:pointer}
+  @media(max-width:860px){
+    nav ul{display:none;flex-direction:column;gap:12px;padding:12px;background:#ffffffcc;border-radius:14px;margin-top:10px}
+    nav.open ul{display:flex}
+    .hamb{display:block}
+  }
+
+  /* Hero */
+  .hero{max-width:1100px;margin:0 auto;padding:56px 18px 22px;text-align:center;color:#0b3b3a}
+  .hero h2{margin:0 0 10px;font:900 34px/1.1 ui-serif,Georgia,Times,serif}
+  .hero p{margin:0 auto;max-width:780px;font-weight:600;color:#325c5b}
+
+  /* Daily quote */
+  .quote{max-width:880px;margin:16px auto;padding:16px 18px;border-radius:16px;
+    background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(14,165,164,.15));
+    border:1px dashed rgba(14,165,164,.35);
+    font:italic 700 18px/1.35 ui-serif,Georgia,Times,serif;color:#0f4b48;text-align:center}
+
+  .section-title{text-align:center;margin:20px 0 8px;font:900 28px/1.1 ui-serif,Georgia,Times,serif;color:#0b3b3a}
+
+  /* Carousel strips */
+  .strip{position:relative;max-width:1240px;margin:0 auto;overflow:hidden;padding:6px 10px 22px}
+  .rail{display:flex;gap:16px;transition:transform .6s ease}
+  .card{flex:0 0 320px;background:var(--card);border-radius:16px;padding:14px;
+    box-shadow:0 10px 24px rgba(0,0,0,.08);cursor:pointer;position:relative;border:1px solid #e7f6f4}
+  .card img{width:100%;height:205px;object-fit:contain;border-radius:12px;background:#f7fffe}
+  .card h3{margin:6px 0 4px;font:900 18px/1.2 ui-rounded,system-ui}
+  .desc{color:#475569;font-size:13.5px;min-height:34px}
+  .badge{position:absolute;left:12px;top:12px;background:var(--danger);color:#fff;font:900 12px/1 ui-rounded;padding:7px 10px;border-radius:999px}
+  .price{margin-top:6px}
+  .mrp{text-decoration:line-through;color:#94a3b8;margin-right:8px;font-weight:700}
+  .now{color:#064e48;font-weight:900}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}
+  .btn{border:none;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer}
+  .btn.details{background:#e6fffb;color:#0f766e}
+  .btn.buy{background:#25D366;color:#fff;display:flex;align-items:center;gap:8px}
+  .btn.buy svg{width:18px;height:18px}
+
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:none;background:#fff;color:var(--brand-deep);cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.15)}
+  .arrow.left{left:-4px}.arrow.right{right:-4px}
+  @media(max-width:640px){.arrow{display:none}}
+
+  /* Modal */
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.48);display:none;place-items:center;z-index:3000;padding:18px}
+  .modal{background:#fff;border-radius:16px;max-width:820px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.35);overflow:hidden}
+  .modal header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#f0fbfa}
+  .modal header h4{margin:0;font:900 18px/1.1 ui-rounded}
+  .close{border:none;background:transparent;font-size:26px;cursor:pointer}
+  .modal-body{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:16px}
+  .modal-body img{width:100%;height:240px;object-fit:contain;background:#f8fffe;border-radius:12px}
+  .chip{display:inline-block;background:#e6fffb;border:1px solid #b6efe8;color:#0f766e;padding:6px 10px;border-radius:999px;font-weight:800;margin:4px 6px 0 0}
+  .feat{margin:8px 0 0 16px}
+  .feat li{margin:6px 0}
+  .modal-footer{padding:12px 16px;background:#f8fffe;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .pricebig .mrp{font-size:14px}.pricebig .now{font-size:18px}
+
+  /* Inquiry */
+  .inquiry{max-width:960px;margin:26px auto;padding:22px;border-radius:18px;background:linear-gradient(180deg,rgba(14,165,164,.08),rgba(16,185,129,.08))}
+  .inquiry h3{text-align:center;margin:0 0 12px;font:900 24px/1.1 ui-serif}
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .form textarea{grid-column:1/-1;min-height:110px}
+  .form input,.form textarea{padding:12px 14px;border-radius:12px;border:1px solid #d1e7e4}
+  .form button{grid-column:1/-1;background:var(--brand);border:none;border-radius:12px;padding:12px 16px;color:#fff;font-weight:900;cursor:pointer}
+
+  footer{background:#0f4b48;color:#e6fffb;text-align:center;padding:24px 14px;margin-top:40px}
+  footer a{color:#a7fff0;text-decoration:underline}
+
+  /* Floaters */
+  .floaters{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:10px;z-index:3500}
+  .fab{width:58px;height:58px;border:none;border-radius:50%;display:grid;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.25);cursor:pointer}
+  .fab.whatsapp{background:#25D366}
+  .fab.call{background:#0ea5a4;color:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand-card">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4S12 28 12 40a20 20 0 1 0 40 0C52 28 32 4 32 4z" fill="#0ea5a4"/></svg>
+      <div class="brand-lines">
+        <div class="title">Aqua Impex</div>
+        <div class="sub">Electricals & Water Solutions</div>
+      </div>
+    </div>
+    <button class="hamb" id="hamb">☰</button>
+    <nav id="nav">
+      <ul>
+        <li><a href="#purifiers">Water Purifiers</a></li>
+        <li><a href="#others">Other Products</a></li>
+        <li><a href="#inquiry">Inquiry</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h2>Pure Water, Smart Living</h2>
+  <p>Premium water purifiers & electrical solutions with fair pricing and fast support. Click any product to see full details.</p>
+</section>
+
+<div class="quote" id="quote">“Better water, better living.”</div>
+
+<!-- Purifiers -->
+<section id="purifiers">
+  <h3 class="section-title">Kent Water Purifiers</h3>
+  <div class="strip">
+    <button class="arrow left" data-target="railPur">&#10094;</button>
+    <div class="rail" id="railPur"></div>
+    <button class="arrow right" data-target="railPur">&#10095;</button>
+  </div>
+</section>
+
+<!-- Other Products -->
+<section id="others">
+  <h3 class="section-title">Other Products</h3>
+  <div class="strip">
+    <button class="arrow left" data-target="railOth">&#10094;</button>
+    <div class="rail" id="railOth"></div>
+    <button class="arrow right" data-target="railOth">&#10095;</button>
+  </div>
+</section>
+<!-- SERVICE RATES SECTION -->
+<section id="service-rates" style="max-width:1200px;margin:30px auto;padding:20px;">
+  <h3 class="section-title">Service Rates</h3>
+
+  <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:16px;">
+      <thead style="background:#e6fffb;color:#064e48;">
+        <tr>
+          <th style="padding:12px;border:1px solid #cce9e6;">Service</th>
+          <th style="padding:12px;border:1px solid #cce9e6;">Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">RO Repair</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 500–1500</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">RO Installation</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 800</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">RO Uninstallation</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 500</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">RO AMC (Quarterly)</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 2500</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">Membrane Manufacturing</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 950–1400</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">Filter Cartridge Replacement</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 200–600</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">Water Softener Installation</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 1500</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">Electrical Appliance Repair</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 300–1200</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">CCTV Installation (per camera)</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 500</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">Geyser Repair</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 400–800</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">Motor & Pump Repair</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 600–1500</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">Kitchen Chimney Service</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 600–1200</td></tr>
+
+        <tr><td style="padding:12px;border:1px solid #dceeee;">AC Installation (Split)</td><td style="padding:12px;border:1px solid #dceeee;">Rs. 1500–2500</td></tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+<!-- Inquiry -->
+<section id="inquiry" class="inquiry">
+  <h3>Have a question or need a quote?</h3>
+  <form class="form" onsubmit="sendInquiry(event)">
+    <input id="qName" placeholder="Your name" required>
+    <input id="qPhone" placeholder="Your phone" required>
+    <textarea id="qMsg" placeholder="Your inquiry…" required></textarea>
+    <button type="submit">Send via WhatsApp</button>
+  </form>
+</section>
+
+<footer id="contact">
+  <p><strong>Aqua Impex Electricals & Water Solutions</strong></p>
+  <p>📍 Congress Chowk, Chandruta, Nepal</p>
+  <p>📞 <a href="tel:+9779811982001">+977 98119 82001</a></p>
+  <p>&copy; 2025 All Rights Reserved</p>
+</footer>
+
+<!-- Modal -->
+<div class="modal-back" id="modalBack" onclick="closeModal(event)">
+  <div class="modal" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+    <header>
+      <h4 id="mTitle">Product</h4>
+      <button class="close" onclick="closeModal()">×</button>
+    </header>
+    <div class="modal-body">
+      <img id="mImg" alt="">
+      <div>
+        <div id="mChips"></div>
+        <ul class="feat" id="mFeat"></ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="pricebig">
+        <span class="mrp" id="mMrp"></span>
+        <span class="now" id="mPrice"></span>
+      </div>
+      <div>
+        <button class="btn buy" id="mBuy">
+          <!-- WhatsApp icon -->
+          <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M19.11 17.74c-.29-.14-1.67-.82-1.93-.9s-.45-.14-.64.14c-.19.29-.74.9-.9 1.09-.17.19-.33.22-.62.07-.29-.14-1.22-.45-2.33-1.44-.86-.76-1.44-1.7-1.61-1.99-.17-.29-.02-.45.12-.59.12-.12.29-.31.43-.48.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.14-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.48h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43s1.03 2.82 1.17 3.01c.14.19 2.02 3.08 4.89 4.32.68.29 1.21.46 1.62.59.68.22 1.3.19 1.79.12.55-.08 1.67-.68 1.91-1.33.24-.65.24-1.21.17-1.33-.07-.12-.26-.19-.55-.33z"/><path d="M26.62 5.38A11.9 11.9 0 1 0 4.84 21.1L3 29l8.07-1.76A11.9 11.9 0 0 0 26.62 5.38zm-1.76 17.66A9.46 9.46 0 0 1 10.7 25.2l-.68-.41-4.79 1.05 1.02-4.66-.44-.71a9.48 9.48 0 1 1 18.05 2.57z"/></svg>
+          WhatsApp Buy
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floaters -->
+<div class="floaters">
+  <button class="fab whatsapp" title="Chat on WhatsApp" onclick="openWhatsAppDirect()">
+    <svg viewBox="0 0 32 32" width="26" height="26" fill="#fff" aria-hidden="true"><path d="M19.11 17.74c-.29-.14-1.67-.82-1.93-.9s-.45-.14-.64.14c-.19.29-.74.9-.9 1.09-.17.19-.33.22-.62.07-.29-.14-1.22-.45-2.33-1.44-.86-.76-1.44-1.7-1.61-1.99-.17-.29-.02-.45.12-.59.12-.12.29-.31.43-.48.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.14-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.48h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43s1.03 2.82 1.17 3.01c.14.19 2.02 3.08 4.89 4.32.68.29 1.21.46 1.62.59.68.22 1.3.19 1.79.12.55-.08 1.67-.68 1.91-1.33.24-.65.24-1.21.17-1.33-.07-.12-.26-.19-.55-.33z"/><path d="M26.62 5.38A11.9 11.9 0 1 0 4.84 21.1L3 29l8.07-1.76A11.9 11.9 0 0 0 26.62 5.38zm-1.76 17.66A9.46 9.46 0 0 1 10.7 25.2l-.68-.41-4.79 1.05 1.02-4.66-.44-.71a9.48 9.48 0 1 1 18.05 2.57z"/></svg>
+  </button>
+  <a class="fab call" title="Call Now" href="tel:+9779811982001">📞</a>
+</div>
+
+<script>
+/* ---------- NAV ---------- */
+document.getElementById('hamb').addEventListener('click',()=>document.getElementById('nav').classList.toggle('open'));
+
+/* ---------- DATA ---------- */
+/* Image files you can provide in /images folder (same names). */
+const PURIFIERS = [
+  { id:'grand-star-b',   name:'KENT GRAND STAR-B',   mrp:58990, img:'grand-star-b.jpg',
+    brief:'RO+UV+UF+TDS | In-tank UV | Wall-mount',
+    features:[
+      'Applications: Suitable for purification of brackish/tap/municipal water',
+      'Purification: RO + UV + UF + TDS Controller',
+      'In-tank UV LED for stored water protection',
+      'Filter cartridges: Sediment, Carbon Block, RO Membrane, UF, Post Carbon',
+      'Flow/Production: up to ~20 L/hr (typical domestic)',
+      'Storage Capacity: 9–11 L (domestic class)',
+      'Mounting: Wall-mounting',
+      'Power: 230V AC, 50 Hz'
+    ]},
+  { id:'pearl-star',     name:'KENT PEARL STAR',     mrp:56490, img:'pearl-star.jpg',
+    brief:'Table-top/Wall | RO+UV+UF+TDS',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'Auto-flushing system',
+      'Detachable tank for easy cleaning',
+      'Storage approx. 11 L; production up to ~20 L/hr',
+      'Wall-mounting / Counter top'
+    ]},
+  { id:'grand-star',     name:'KENT GRAND STAR',     mrp:56290, img:'grand-star.jpg',
+    brief:'RO+UV+UF+TDS | Double UV protection',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'Double UV protection concept',
+      'Sediment, Carbon Block, RO Membrane, UF, Post Carbon',
+      'Approx. 20 L/hr production; 8–10 L storage',
+      'Wall mounting'
+    ]},
+  { id:'prime-plus',     name:'KENT PRIME PLUS',     mrp:50990, img:'prime-plus.jpg',
+    brief:'RO+UV+UF+TDS | Elegant design',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'High purification capacity for brackish/municipal water',
+      'Auto-flush; computer-controlled operations',
+      'Wall-mount design with compact footprint'
+    ]},
+  { id:'grand-plus-b',   name:'KENT GRAND PLUS-B',   mrp:43190, img:'grand-plus-b.jpg',
+    brief:'RO+UV+UF+TDS | UV-in-tank',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'In-tank UV; double protection',
+      'Sediment, Carbon Block, RO, UF, Post Carbon',
+      'Max duty cycle up to ~20 L/hr',
+      'Wall mounting'
+    ]},
+  { id:'pearl',          name:'KENT PEARL',          mrp:42590, img:'pearl.jpg',
+    brief:'RO+UV+UF+TDS | Counter/Wall',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'Detachable storage tank ~8–11 L',
+      'Counter-top / Wall-mounting',
+      'Auto-flush; low maintenance design'
+    ]},
+  { id:'supreme-alk',    name:'KENT SUPREME ALKALINE', mrp:42290, img:'supreme-alkaline.jpg',
+    brief:'RO+UV+UF+TDS | Alkaline',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'Alkaline filter for better pH and taste',
+      'Multiple purification stages incl. Carbon Block',
+      'Wall-mount; indoor domestic use'
+    ]},
+  { id:'supreme-copper', name:'KENT SUPREME COPPER', mrp:40590, img:'supreme-copper.jpg',
+    brief:'RO+UV+UF+TDS | Copper',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'Copper charge technology / Copper filter',
+      'Sediment + Carbon Block + RO + UF + Post Carbon + Copper',
+      'Wall mounting'
+    ]},
+  { id:'grand-plus',     name:'KENT GRAND PLUS',     mrp:40590, img:'grand-plus.jpg',
+    brief:'RO+UV+UF+TDS | Double UV',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'Double UV protection / UV in tank',
+      'High flow domestic purifier',
+      'Wall-mount'
+    ]},
+  { id:'prime-duo',      name:'KENT PRIME DUO',      mrp:55390, img:'prime-duo.jpg',
+    brief:'RO+UV+UF+TDS | Under-the-counter',
+    features:[
+      'Under the counter installation with faucet',
+      'RO + UV + UF + TDS Controller',
+      'Sediment + Carbon + RO + Post Carbon',
+      'Compact module with storage tank'
+    ]},
+  { id:'sterling-plus',  name:'KENT STERLING+',      mrp:42290, img:'sterling-plus.jpg',
+    brief:'RO+UV+UF+TDS | Under-the-counter',
+    features:[
+      'Compact under-sink purifier',
+      'RO + UV + UF + TDS Controller',
+      'Production ~15 L/hr class',
+      'Ideal for modular kitchens'
+    ]},
+  { id:'excell-plus',    name:'KENT EXCELL+',        mrp:39190, img:'excell-plus.jpg',
+    brief:'RO+UV+UF+TDS | Under-the-counter',
+    features:[
+      'RO + UV + UF + TDS Controller',
+      'With separate pressure/storage tank',
+      'High efficiency RO membrane',
+      'Under-the-counter mounting'
+    ]},
+];
+
+const OTHER_PRODUCTS = [
+  { id:'cctv', name:'HD CCTV Camera Kit', mrp:10000, img:'cctv-kit.jpg',
+    brief:'4 Cam DVR combo • Remote View',
+    features:['4x 1080p Cameras','8CH DVR','1TB HDD (optional)','Mobile App View','Installation available']},
+  { id:'midea-ac', name:'Midea AC 1.5 Ton', mrp:55000, img:'midea-ac.jpg',
+    brief:'Inverter • Energy efficient',
+    features:['100% Copper','Turbo cool','Sleep mode','5-year compressor warranty']},
+  { id:'electricals', name:'Electrical Appliances', mrp:5000, img:'electricals.jpg',
+    brief:'Geysers • Fans • Lights',
+    features:['Trusted brands','Installation support','Spare parts available']}
+];
+
+/* ---------- HELPERS ---------- */
+const rupee = n => "₹"+Number(n).toLocaleString("en-IN");
+const finalPrice = mrp => Math.round(mrp * 0.82); // 18% OFF
+const slugImg = (file) => `images/${file}`;
+
+/* ---------- RENDER CARDS ---------- */
+function render(list, railId){
+  const rail = document.getElementById(railId);
+  rail.innerHTML = "";
+  list.forEach(p=>{
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <div class="badge">18% OFF</div>
+      <img alt="${p.name}" src="${slugImg(p.img)}"
+           onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=${encodeURIComponent(p.name)}'">
+      <h3>${p.name}</h3>
+      <div class="desc">${p.brief}</div>
+      <div class="price"><span class="mrp">${rupee(p.mrp)}</span><span class="now">${rupee(finalPrice(p.mrp))}</span></div>
+      <div class="row">
+        <button class="btn details" onclick="openModal('${p.id}','pur')">View Details</button>
+        <button class="btn buy" onclick="whatsAppBuy('${p.name}')">
+          <svg viewBox="0 0 32 32"><path d="M19.11 17.74c-.29-.14-1.67-.82-1.93-.9s-.45-.14-.64.14c-.19.29-.74.9-.9 1.09-.17.19-.33.22-.62.07-.29-.14-1.22-.45-2.33-1.44-.86-.76-1.44-1.7-1.61-1.99-.17-.29-.02-.45.12-.59.12-.12.29-.31.43-.48.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.14-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.48h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43s1.03 2.82 1.17 3.01c.14.19 2.02 3.08 4.89 4.32.68.29 1.21.46 1.62.59.68.22 1.3.19 1.79.12.55-.08 1.67-.68 1.91-1.33.24-.65.24-1.21.17-1.33-.07-.12-.26-.19-.55-.33z" fill="#fff"/><path d="M26.62 5.38A11.9 11.9 0 1 0 4.84 21.1L3 29l8.07-1.76A11.9 11.9 0 0 0 26.62 5.38z" fill="#fff"/></svg>
+          Buy
+        </button>
+      </div>`;
+    el.onclick = (e)=>{ if(!e.target.closest('button')) openModal(p.id,'pur'); };
+    rail.appendChild(el);
+  });
+}
+
+/* ---------- CAROUSEL ---------- */
+function initCarousel(railId){
+  let i=0; const rail=document.getElementById(railId);
+  function go(n){ if(!rail.children.length) return; i = (n+rail.children.length)%rail.children.length; rail.style.transform = `translateX(${-i*336}px)`; }
+  const left = document.querySelector(`.arrow.left[data-target="${railId}"]`);
+  const right= document.querySelector(`.arrow.right[data-target="${railId}"]`);
+  left.addEventListener('click',()=>go(i-1)); right.addEventListener('click',()=>go(i+1));
+  setInterval(()=>go(i+1), 4200);
+}
+
+/* ---------- MODAL ---------- */
+const modalBack = document.getElementById('modalBack');
+const byId = id => document.getElementById(id);
+function openModal(id, type){
+  const p = (type==='pur'? PURIFIERS : OTHER_PRODUCTS).find(x=>x.id===id); if(!p) return;
+  byId('mTitle').textContent = p.name;
+  byId('mImg').src = slugImg(p.img);
+  byId('mImg').alt = p.name;
+  byId('mImg').onerror = ()=>{ byId('mImg').src = 'https://via.placeholder.com/700x500?text='+encodeURIComponent(p.name); };
+  byId('mMrp').textContent   = rupee(p.mrp);
+  byId('mPrice').textContent = rupee(finalPrice(p.mrp));
+  /* chips */
+  byId('mChips').innerHTML = `<span class="chip">18% OFF</span><span class="chip">RO • UV • UF • TDS</span>`;
+  /* features list */
+  byId('mFeat').innerHTML = p.features.map(f=>`<li>${f}</li>`).join('');
+  /* buy button */
+  const buyBtn = byId('mBuy');
+  buyBtn.onclick = ()=>whatsAppBuy(p.name);
+  modalBack.style.display='grid';
+}
+function closeModal(){ modalBack.style.display='none'; }
+
+/* ---------- ACTIONS ---------- */
+function whatsAppBuy(name){
+  const text = `Hi, I'm interested in "${name}".\nPlease share the best price and availability.`;
+  window.open(`https://wa.me/9779811982001?text=${encodeURIComponent(text)}`,'_blank');
+}
+function openWhatsAppDirect(){
+  window.open(`https://wa.me/9779811982001?text=${encodeURIComponent('Hello! I visited your website and have a query.')}`,'_blank');
+}
+function sendInquiry(e){
+  e.preventDefault();
+  const n=qName.value.trim(), p=qPhone.value.trim(), m=qMsg.value.trim();
+  const text=`Inquiry from Website\nName: ${n}\nPhone: ${p}\nMessage: ${m}`;
+  window.open(`https://wa.me/9779811982001?text=${encodeURIComponent(text)}`,'_blank');
+}
+
+/* ---------- INIT ---------- */
+const quotes=[
+  "Better water, better living.",
+  "Clean water is the foundation of a healthy life.",
+  "Pure water. Pure mind."
+];
+document.getElementById('quote').textContent = "“"+quotes[(new Date()).getDay()%quotes.length]+"”";
+
+render(PURIFIERS,'railPur'); render(OTHER_PRODUCTS,'railOth');
+initCarousel('railPur'); initCarousel('railOth');
+</script>
+</body>
+</html>
